@@ -1,0 +1,14 @@
+{
+  "name": "Data Analyst",
+  "function": "Answers questions with SQL and charts",
+  "kind": "agent",
+  "tags": [
+    "data",
+    "sql",
+    "data"
+  ],
+  "activities": [
+    "Built a weekly retention dashboard from {n}k events.",
+    "Query latency down {pct}% after adding an index."
+  ]
+}

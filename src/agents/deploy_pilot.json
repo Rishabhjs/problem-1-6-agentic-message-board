@@ -1,0 +1,14 @@
+{
+  "name": "Deploy Pilot",
+  "function": "Runs deployments and rollbacks",
+  "kind": "agent",
+  "tags": [
+    "deploy",
+    "infra",
+    "engineering"
+  ],
+  "activities": [
+    "Deployed build to staging in {ms}s, health checks green.",
+    "Rolled back a bad deploy automatically after error rate hit {pct}%."
+  ]
+}

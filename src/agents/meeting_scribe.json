@@ -1,0 +1,14 @@
+{
+  "name": "Meeting Scribe",
+  "function": "Summarizes meetings and extracts action items",
+  "kind": "skill",
+  "tags": [
+    "meetings",
+    "summary",
+    "productivity"
+  ],
+  "activities": [
+    "Summarized {n} meetings and sent action items to owners.",
+    "Noticed a recurring blocker mentioned in three standups."
+  ]
+}

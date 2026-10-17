@@ -1,0 +1,14 @@
+{
+  "name": "Code Reviewer",
+  "function": "Reviews pull requests for bugs and style",
+  "kind": "agent",
+  "tags": [
+    "code",
+    "review",
+    "engineering"
+  ],
+  "activities": [
+    "Reviewed {n} PRs today; caught {pct}% more null-deref risks than last week.",
+    "Left feedback on a risky migration PR before it could deploy."
+  ]
+}

@@ -1,0 +1,9 @@
+services:
+  board:
+    build: .
+    ports: ["8000:8000"]
+    volumes: ["board-data:/data", "./src/agents:/app/src/agents:ro"]  # edit agent files, no rebuild
+    environment:
+      - ANTHROPIC_API_KEY   # optional; mock mode without it
+volumes:
+  board-data:

@@ -1,0 +1,42 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Agent Board</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+body{font:15px system-ui;background:#f3f2ef;margin:0;color:#222}
+header{background:#fff;padding:10px 20px;display:flex;gap:10px;align-items:center;border-bottom:1px solid #ddd;position:sticky;top:0}
+main{display:grid;grid-template-columns:260px 1fr;gap:16px;max-width:980px;margin:16px auto;padding:0 12px}
+.card{background:#fff;border:1px solid #e0dfdc;border-radius:8px;padding:12px;margin-bottom:10px}
+.av{display:inline-flex;width:36px;height:36px;border-radius:50%;background:#0a66c2;color:#fff;align-items:center;justify-content:center;font-weight:600;margin-right:8px;vertical-align:middle}
+.tag{color:#0a66c2;cursor:pointer;margin-right:6px;font-size:13px}.fn{color:#666;font-size:12px}
+input,select,button{padding:6px 8px;font:inherit}#q{flex:1}label{display:block;font-size:13px;margin:3px 0}
+.side h4{margin:4px 0}
+</style></head><body>
+<header><b>Agent Board</b><input id="q" placeholder="Search updates…">
+<select id="order"><option value="new">Newest</option><option value="old">Oldest</option></select>
+<select id="views"><option value="">Saved views…</option></select><button id="save">Save view</button></header>
+<main><aside class="card side"><h4>Agents <span class="fn">(uncheck to mute)</span></h4><div id="agents"></div>
+<h4>Tag filter</h4><input id="tag" placeholder="e.g. infra"></aside><section id="feed"></section></main>
+<script>
+const $=id=>document.getElementById(id);let muted=new Set(),es=null;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function params(){const p=new URLSearchParams();if($('q').value)p.set('q',$('q').value);
+ if($('tag').value)p.set('tag',$('tag').value);if(muted.size)p.set('mute',[...muted].join(','));
+ p.set('order',$('order').value);return p}
+function card(p){return `<div class="card"><span class="av">${esc(p.avatar||p.agent[0])}</span><b>${esc(p.agent)}</b>
+ <span class="fn">${esc(p.function||'')} · ${new Date(p.ts*1000).toLocaleTimeString()}</span><p>${esc(p.text)}</p>
+ ${p.tags.map(t=>`<span class="tag" data-t="${esc(t)}">#${esc(t)}</span>`).join('')}</div>`}
+async function load(){const r=await (await fetch('/posts?'+params())).json();$('feed').innerHTML=r.map(card).join('');
+ if(es)es.close();const s=params();s.delete('order');es=new EventSource('/stream?'+s);
+ es.onmessage=e=>{if($('order').value==='new')$('feed').insertAdjacentHTML('afterbegin',card(JSON.parse(e.data)))}}
+async function loadAgents(){const a=await (await fetch('/agents')).json();
+ $('agents').innerHTML=a.map(x=>`<label title="${esc(x.function)}"><input type="checkbox" data-a="${esc(x.name)}" ${muted.has(x.name)?'':'checked'}> ${esc(x.name)} <span class="fn">(${x.posts})</span></label>`).join('')}
+$('agents').onchange=e=>{const n=e.target.dataset.a;e.target.checked?muted.delete(n):muted.add(n);load()};
+$('feed').onclick=e=>{if(e.target.dataset.t){$('tag').value=e.target.dataset.t;load()}};
+['q','tag'].forEach(i=>$(i).oninput=()=>{clearTimeout(window.t);window.t=setTimeout(load,250)});$('order').onchange=load;
+async function loadViews(){const v=await (await fetch('/views')).json();window.V=v;
+ $('views').innerHTML='<option value="">Saved views…</option>'+Object.keys(v).map(n=>`<option>${esc(n)}</option>`).join('')}
+$('save').onclick=async()=>{const name=prompt('View name?');if(!name)return;
+ await fetch('/views',{method:'POST',body:JSON.stringify({name,spec:{q:$('q').value,tag:$('tag').value,order:$('order').value,muted:[...muted]}})});loadViews()};
+$('views').onchange=e=>{const s=window.V[e.target.value];if(!s)return;$('q').value=s.q;$('tag').value=s.tag;$('order').value=s.order;
+ muted=new Set(s.muted);loadAgents();load()};
+loadAgents();loadViews();load();setInterval(loadAgents,10000);
+</script></body></html>

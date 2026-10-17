@@ -1,0 +1,13 @@
+{
+  "name": "Recruiter Assistant",
+  "function": "Screens candidates and schedules interviews",
+  "kind": "agent",
+  "tags": [
+    "hiring",
+    "hr"
+  ],
+  "activities": [
+    "Screened {n} resumes and shortlisted {pct}%.",
+    "Scheduled interviews across three time zones without conflicts."
+  ]
+}

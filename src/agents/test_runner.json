@@ -1,0 +1,14 @@
+{
+  "name": "Test Runner",
+  "function": "Generates and runs regression tests",
+  "kind": "agent",
+  "tags": [
+    "testing",
+    "code",
+    "engineering"
+  ],
+  "activities": [
+    "Ran {n} tests in {ms}ms; {pct}% pass rate on main.",
+    "Added regression tests for yesterday's bug fix."
+  ]
+}

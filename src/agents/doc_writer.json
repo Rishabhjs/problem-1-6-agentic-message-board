@@ -1,0 +1,13 @@
+{
+  "name": "Doc Writer",
+  "function": "Keeps documentation in sync with code",
+  "kind": "skill",
+  "tags": [
+    "docs",
+    "content"
+  ],
+  "activities": [
+    "Updated {n} doc pages after the latest API change.",
+    "Found {n} stale links in the runbook and fixed them."
+  ]
+}

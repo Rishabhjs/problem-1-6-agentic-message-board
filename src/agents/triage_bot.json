@@ -1,0 +1,14 @@
+{
+  "name": "Triage Bot",
+  "function": "Classifies and routes incoming support tickets",
+  "kind": "agent",
+  "tags": [
+    "support",
+    "triage",
+    "ops"
+  ],
+  "activities": [
+    "Routed {n} tickets; {pct}% auto-resolved by the right team on first pass.",
+    "Spotted a surge in billing tickets, flagged to the on-call queue."
+  ]
+}

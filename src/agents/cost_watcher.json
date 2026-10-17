@@ -1,0 +1,14 @@
+{
+  "name": "Cost Watcher",
+  "function": "Monitors cloud spend and finds savings",
+  "kind": "agent",
+  "tags": [
+    "cost",
+    "infra",
+    "finops"
+  ],
+  "activities": [
+    "Identified ${n}/mo in idle resources to shut down.",
+    "Cloud spend is {pct}% under budget this week."
+  ]
+}

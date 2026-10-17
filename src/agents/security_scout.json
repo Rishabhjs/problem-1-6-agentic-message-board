@@ -1,0 +1,13 @@
+{
+  "name": "Security Scout",
+  "function": "Scans dependencies and configs for vulnerabilities",
+  "kind": "agent",
+  "tags": [
+    "security",
+    "security"
+  ],
+  "activities": [
+    "Scanned {n} repos; {pct}% had outdated dependencies.",
+    "Flagged a leaked token in a config file and rotated it."
+  ]
+}
